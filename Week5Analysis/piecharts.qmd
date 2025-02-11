@@ -1,0 +1,86 @@
+
+```{r}
+library(ggplot2)
+```
+
+Comparison between # of bots vs humans 
+
+```{r}
+user_comp <- data.frame(user_type = c('Bot', 'Human'), 
+                        num_accs = c(164654, 10216509))
+
+ggplot(user_comp, aes(x='', y=num_accs, fill=user_type))+
+  geom_bar(stat='identity', width=1)+
+  coord_polar('y') +
+  geom_text(aes(label = ifelse(num_accs / sum(num_accs) < 0.2, "1.6%", "")), 
+            position = position_stack(vjust = 0.5), vjust = -7) + 
+  labs(fill = 'User Type', title = 'Number of Bot Users vs. Human Users') +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text = element_blank(), 
+        axis.ticks = element_blank())
+```
+
+Comparison between bot placements vs human placements 
+
+```{r}
+placement_comp <- data.frame(user_type = c('Bot', 'Human'),
+                             num_place = c(14854384, 145498720))
+
+ggplot(placement_comp, aes(x='', y=num_place, fill=user_type))+
+  geom_bar(stat='identity', width=1)+
+  coord_polar('y') +
+  geom_text(aes(label = ifelse(num_place / sum(num_place) < 0.2, "9.3%", "")), 
+            position = position_stack(vjust = 0.5), vjust = -7.4) +
+  labs(fill = 'User Type', title = 'Number of Bot Pixel Placements vs. Human Pixel Placements') +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text = element_blank(), 
+        axis.ticks = element_blank()) 
+```
+
+Redundancies across bots 
+
+```{r}
+redundancy_bots <- data.frame(pixel_type = c('Redundant', 'Not Redundant'), 
+                              placements = c(5701301, 14854384-5701301))
+
+ggplot(redundancy_bots, aes(x='', y=placements, fill=pixel_type))+
+  geom_bar(stat='identity', width=1)+
+  coord_polar('y') +
+  geom_text(aes(label = ifelse(placements / sum(placements) < 0.6, '62.3%', "")), 
+            position = position_stack(vjust = 0.5), vjust = -8, hjust=5.6) + 
+  geom_text(aes(label = ifelse(placements / sum(placements) < 0.6, '37.7%', "")), 
+            position = position_stack(vjust = 0.5), vjust = -8, hjust=-1) +
+  labs(fill = 'Pixel Type', title = 'Proportion of Redundant Pixel Placements for Bots') +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text = element_blank(), 
+        axis.ticks = element_blank()) +
+  scale_fill_manual(values = c('#80CEE1', '#D98EBF'))
+```
+
+Redundancies across humans 
+
+```{r}
+reduandancy_humans <- data.frame(pixel_type = c('Redundant', 'Not Redundant'),
+                                 placements = c(28160050, 145498720-28160050))
+
+ggplot(reduandancy_humans, aes(x='', y=placements, fill=pixel_type))+
+  geom_bar(stat='identity', width=1)+
+  coord_polar('y') +
+  geom_text(aes(label = ifelse(placements / sum(placements) < 0.6, '80.6%', "")), 
+            position = position_stack(vjust = 0.5), vjust = -5, hjust=4.8) + 
+  geom_text(aes(label = ifelse(placements / sum(placements) < 0.6, '19.4%', "")), 
+            position = position_stack(vjust = 0.5), vjust = -6, hjust=-1) +
+  labs(fill = 'Pixel Type', title = 'Proportion of Redundant Pixel Placements for Humans') +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text = element_blank(), 
+        axis.ticks = element_blank()) +
+  scale_fill_manual(values = c('#80CEE1', '#D98EBF'))
+```
